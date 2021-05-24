@@ -1,37 +1,21 @@
 package ru.drobyazko;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class DataBundle {
-    private String firstString;
-    private String secondString;
-    private String thirdString;
+    private List<String> stringList;
 
     public DataBundle(String firstString, String secondString, String thirdString) {
-        this.firstString = firstString;
-        this.secondString = secondString;
-        this.thirdString = thirdString;
+        stringList = new ArrayList<>();
+        stringList.add(firstString);
+        stringList.add(secondString);
+        stringList.add(thirdString);
     }
 
-    public String getFirstString() {
-        return firstString;
-    }
-
-    public String getSecondString() {
-        return secondString;
-    }
-
-    public String getThirdString() {
-        return thirdString;
-    }
-
-    @Override
-    public String toString() {
-        return "DataBundle{" +
-                "firstString='" + firstString + '\'' +
-                ", secondString='" + secondString + '\'' +
-                ", thirdString='" + thirdString + '\'' +
-                '}';
+    public String getString(int index) {
+        return stringList.get(index);
     }
 
     @Override
@@ -39,13 +23,29 @@ public class DataBundle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DataBundle that = (DataBundle) o;
-        return firstString.equals(that.firstString)
-                && secondString.equals(that.secondString)
-                && thirdString.equals(that.thirdString);
+        return stringList.equals(that.stringList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstString, secondString, thirdString);
+        return Objects.hash(stringList);
     }
+
+    @Override
+    public String toString() {
+        return getString(0) + ";" + getString(1) + ";" + getString(2);
+    }
+
+    public String getFirstString() {
+        return stringList.get(0);
+    }
+
+    public String getSecondString() {
+        return stringList.get(1);
+    }
+
+    public String getThirdString() {
+        return stringList.get(2);
+    }
+
 }
