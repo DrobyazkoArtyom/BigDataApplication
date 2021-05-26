@@ -5,9 +5,14 @@ import java.util.*;
 
 public class BigDataApplication {
 
+    private static final String inputFileName = "src/ru/drobyazko/lng.csv";
+    private static final String outputFileName = "src/ru/drobyazko/results.csv";
+
     public static void main(String[] args) {
 
-        File csvFile = new File("src/ru/drobyazko/lng.csv");
+        long startTime = System.currentTimeMillis();
+
+        File csvFile = new File(inputFileName);
         if(!csvFile.exists()) {
             return;
         }
@@ -18,7 +23,7 @@ public class BigDataApplication {
 
             String row;
             while( (row = csvReader.readLine()) != null) {
-                if(row.matches("\"\\d*\";\"\\d*\";\"\\d*\"")) {
+                if(row.matches("\"[0-9.]*\";\"[0-9.]*\";\"[0-9.]*\"")) {
                     String[] dataArray = row.split(";");
 
                     for (String dataElement: dataArray) {
@@ -118,9 +123,13 @@ public class BigDataApplication {
         List<List<DataBundle>> resultList = new ArrayList<>(dataBundleListHashSet);
         Collections.sort(resultList, Comparator.comparing(List::size, Comparator.reverseOrder()));
 
-        File csvResultsFile = new File("src/ru/drobyazko/results.csv");
+        File csvResultsFile = new File(outputFileName);
         if(!csvResultsFile.exists()) {
-            return;
+            try {
+                csvResultsFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         try (BufferedWriter csvWriter  = new BufferedWriter(new FileWriter(csvResultsFile))) {
@@ -144,6 +153,12 @@ public class BigDataApplication {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println((System.currentTimeMillis() - startTime)/1000.0 + " seconds");
+
+    }
+
+    private void solveProblem() {
 
     }
 
